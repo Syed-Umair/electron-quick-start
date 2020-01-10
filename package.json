@@ -4,6 +4,7 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
+    "postinstall": "npx electron-rebuild -v 7.1.7",
     "start": "electron ."
   },
   "repository": "https://github.com/electron/electron-quick-start",
@@ -18,5 +19,10 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^7.1.7"
+  },
+  "dependencies": {
+    "electron-spellchecker": "^2.2.1",
+    "finalhandler": "^1.1.2",
+    "serve-static": "^1.14.1"
   }
 }

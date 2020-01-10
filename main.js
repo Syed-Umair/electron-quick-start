@@ -2,17 +2,44 @@
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
 
+app.commandLine.appendSwitch(
+    'remote-debugging-port',
+    6222,
+);
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
 
 function createWindow () {
+
+    var http = require('http');
+    var finalhandler = require('finalhandler');
+    var serveStatic = require('serve-static');
+    var serve = serveStatic("./");
+    var server = http.createServer(function(req, res) {
+    var done = finalhandler(req, res);
+        serve(req, res, done);
+    });
+    server.listen(8080);
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1100,
+    height: 680,
+    fullscreen: false,
+    kiosk: false,
+    show: true,
+    minWidth: 1100,
+    minHeight: 680,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+        nodeIntegration: true,
+        webviewTag: true,
+        preload: path.join(__dirname, 'preload.js'),
+        webSecurity: false,
+        allowRunningInsecureContent: true,
+        allowDisplayingInsecureContent: true,
+        contextIsolation: false
     }
   })
 
